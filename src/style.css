@@ -1,0 +1,245 @@
+/* --- IMPOSTAZIONI BASE --- */
+body {
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center; /* Questo centra verticalmente */
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: #D2042D;
+  font-family: 'Arial', sans-serif;
+  overflow: hidden;
+}
+
+#app {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* --- CONTENITORE PRINCIPALE --- */
+.row-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 180px; /* Distanza laterale */
+  z-index: 100;
+  
+  /* --- MODIFICA 1: SPOSTIAMO TUTTO PIÙ IN BASSO --- */
+  /* Aumenta questo valore se lo vuoi ancora più in basso */
+  margin-top: 50px; 
+}
+
+/* --- EFFETTO SCRITTURA --- */
+.side-text {
+  color: white;
+  width: 400px;      /* Larghezza fissa: prenota lo spazio */
+  min-width: 400px;  /* Impedisce che si restringa */  
+  text-align: left;
+  font-family: 'Caveat', cursive;
+}
+
+.typewriter {
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 3px solid white;
+  width: 0;
+  font-size: 4rem;
+  margin: 0 0 10px 0;
+  text-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  animation: 
+    typing 2.5s steps(30, end) forwards,
+    blink-caret .75s step-end infinite;
+  animation-delay: 0.5s;
+}
+
+.fade-in-delayed {
+  font-size: 1.8rem;
+  margin: 0;
+  opacity: 0;
+  animation: fadeInSimple 1s ease forwards;
+  animation-delay: 3s;
+}
+
+/* --- CASSETTA DELLE LETTERE --- */
+.mailbox-container {
+  position: relative;
+  width: 350px;
+  height: 400px;
+  display: flex;
+  justify-content: center;
+  
+  /* --- MODIFICA 2: INGRANDIAMO ANCORA (da 1.5 a 1.8) --- */
+  transform: scale(1.8); 
+  transform-origin: center center;
+}
+
+.mailbox-image {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  position: absolute;
+  top: 0;
+  z-index: 20;
+}
+
+/* --- PARTICELLE DI SFONDO --- */
+.mini-letter-particle {
+  position: absolute;
+  top: 135px;
+  left: 50%;
+  width: 30px;
+  height: 20px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 2px;
+  z-index: 10;
+  pointer-events: none;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* --- LA LETTERA PRINCIPALE --- */
+.letter {
+  position: absolute;
+  left: 50%;
+  width: 240px;
+  height: 160px;
+  background-color: #ffffff;
+  text-decoration: none;
+  color: #333;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+  z-index: 5;
+  
+  animation: dropAndRise 2.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+  animation-delay: 0.5s;
+  
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  
+  top: 135px; 
+  transform: translateX(-50%) scale(0.1);
+  opacity: 0;
+  
+  overflow: hidden;
+  border-radius: 4px;
+}
+
+/* Stile Air Mail */
+.airmail-border {
+  width: 100%;
+  height: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+  background: repeating-linear-gradient(
+    45deg,
+    #cc0000,
+    #cc0000 15px,
+    #ffffff 15px,
+    #ffffff 25px,
+    #0033cc 25px,
+    #0033cc 40px,
+    #ffffff 40px,
+    #ffffff 50px
+  );
+}
+
+.letter-content {
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.stamp-area {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+.stamp {
+  width: 30px;
+  height: 35px;
+  border: 2px dotted #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 8px;
+  color: #ccc;
+  background-color: #f9f9f9;
+}
+
+.text-center p {
+  font-family: 'Courier New', monospace;
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: #333;
+  letter-spacing: 2px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 5px;
+}
+
+.details {
+  position: absolute;
+  bottom: 0px;
+  right: 15px;
+  text-align: left;
+  font-family: 'Courier New', monospace;
+  font-size: 0.7rem;
+  color: #555;
+  line-height: 0.6;
+}
+
+.letter:hover {
+  transform: translateX(-50%) scale(1.05);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+}
+
+/* --- ANIMAZIONI --- */
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+@keyframes blink-caret {
+  from, to { border-color: transparent }
+  50% { border-color: white; }
+}
+
+@keyframes fadeInSimple {
+  to { opacity: 1; }
+}
+
+@keyframes dropAndRise {
+  0% {
+    top: 10px;
+    transform: translateX(-50%) scale(0.1) rotate(-5deg);
+    opacity: 0;
+    z-index: 15;
+  }
+  10% { opacity: 1; }
+  40% {
+    top: 320px;
+    transform: translateX(-50%) scale(0.6) rotate(5deg);
+    z-index: 15;
+  }
+  100% {
+    top: 100px; 
+    transform: translateX(-50%) scale(1.1) rotate(0deg); 
+    opacity: 1;
+    z-index: 30;
+  }
+}
+
+@keyframes flyParticles {
+  0% {
+    transform: translate(-50%, 0) rotate(0deg) scale(0.5);
+    opacity: 0;
+  }
+  10% { opacity: 0.8; }
+  100% {
+    transform: translate(var(--tx), var(--ty)) rotate(var(--r)) scale(1);
+    opacity: 0;
+  }
+}
