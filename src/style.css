@@ -4,7 +4,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-width: 320px;
+  min-width: 320px; /* Supporto minimo per smartphone piccoli */
   min-height: 100vh;
   background-color: #D2042D;
   font-family: 'Arial', sans-serif;
@@ -14,6 +14,7 @@ body {
 
 #app {
   width: 100%;
+  height: 100vh; /* Forza altezza piena */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -24,11 +25,12 @@ body {
 /* --- CONTENITORE PRINCIPALE --- */
 .row-container {
   display: flex;
-  flex-direction: row;
+  flex-direction: row; /* Default: Orizzontale per PC */
   align-items: center;
   gap: 180px;
   z-index: 100;
   margin-top: 50px; 
+  transition: all 0.5s ease;
 }
 
 /* --- EFFETTO SCRITTURA --- */
@@ -62,7 +64,7 @@ body {
   height: 400px;
   display: flex;
   justify-content: center;
-  transform: scale(1.8); 
+  transform: scale(1.8); /* Scale grande per Desktop */
   transform-origin: center center;
   transition: all 1s cubic-bezier(0.25, 1, 0.5, 1);
   z-index: 50;
@@ -78,7 +80,7 @@ body {
   transition: opacity 0.1s ease;
 }
 
-/* --- PARTICELLE LETTERE (Esplosione) --- */
+/* --- PARTICELLE LETTERE --- */
 .mini-letter-particle {
   position: absolute;
   top: 135px;
@@ -198,7 +200,7 @@ body {
   pointer-events: none;
 }
 
-/* MODIFICA: Scala ridotta da 3.5 a 2 */
+/* ZOOM PER DESKTOP (Default) */
 .zoomed-center {
   position: fixed !important;
   top: 50% !important;
@@ -212,7 +214,7 @@ body {
   opacity: 0;
 }
 
-/* --- PARTICELLE CUORE (Pioggia) --- */
+/* --- PARTICELLE CUORE --- */
 .heart-particle {
   position: absolute;
   top: -50px; 
@@ -223,9 +225,7 @@ body {
   z-index: 1; 
   pointer-events: none;
 }
-
-.heart-particle::before,
-.heart-particle::after {
+.heart-particle::before, .heart-particle::after {
   content: '';
   position: absolute;
   width: 20px;
@@ -233,63 +233,70 @@ body {
   border-radius: 50%;
   background-color: rgba(255, 192, 203, 0.6);
 }
-.heart-particle::before {
-  top: -10px;
-  left: 0;
-}
-.heart-particle::after {
-  top: 0;
-  left: -10px;
+.heart-particle::before { top: -10px; left: 0; }
+.heart-particle::after { top: 0; left: -10px; }
+
+
+/* =========================================
+   MEDIA QUERY PER SMARTPHONE (Responsive)
+   ========================================= */
+@media (max-width: 768px) {
+  
+  /* Cambiamo direzione: Colonna invece di Riga */
+  .row-container {
+    flex-direction: column;
+    gap: 10px; /* Meno spazio tra testo e mailbox */
+    margin-top: 0;
+    width: 100%;
+  }
+
+  /* Adattiamo il testo */
+  .side-text {
+    width: 100%;
+    min-width: unset;
+    text-align: center; /* Centrato */
+    display: flex;
+    justify-content: center;
+    order: -1; /* Assicura che stia sopra */
+    margin-bottom: 20px;
+  }
+
+  .typewriter {
+    font-size: 2.8rem; /* Font un po' più piccolo per stare nello schermo */
+    width: auto;
+  }
+
+  /* Rimpiccioliamo la mailbox per farla stare nel telefono */
+  .mailbox-container {
+    transform: scale(1.1); /* Molto più piccolo rispetto al 1.8 del desktop */
+    width: 100%;
+    max-width: 320px;
+    height: 350px; /* Riduciamo l'altezza riservata */
+  }
+
+  /* MODIFICA QUI: Zoom finale ridotto per Mobile */
+  .zoomed-center {
+    /* Ridotto da 2.2 a 1.5 per non coprire tutto lo schermo */
+    transform: translate(-50%, -50%) scale(1.5) !important;
+  }
 }
 
 /* --- KEYFRAMES --- */
-@keyframes typing {
-  from { width: 0 }
-  to { width: 100% }
-}
-@keyframes blink-caret {
-  from, to { border-color: transparent }
-  50% { border-color: white; }
-}
-
+@keyframes typing { from { width: 0 } to { width: 100% } }
+@keyframes blink-caret { from, to { border-color: transparent } 50% { border-color: white; } }
 @keyframes dropAndRise {
-  0% {
-    top: 10px;
-    transform: translateX(-50%) scale(0.1) rotate(-5deg);
-    opacity: 0;
-    z-index: 15;
-  }
+  0% { top: 10px; transform: translateX(-50%) scale(0.1) rotate(-5deg); opacity: 0; z-index: 15; }
   10% { opacity: 1; }
-  40% {
-    top: 320px;
-    transform: translateX(-50%) scale(0.6) rotate(5deg);
-    z-index: 15;
-  }
-  100% {
-    top: 100px; 
-    transform: translateX(-50%) scale(1.1) rotate(0deg); 
-    opacity: 1;
-    z-index: 30;
-  }
+  40% { top: 320px; transform: translateX(-50%) scale(0.6) rotate(5deg); z-index: 15; }
+  100% { top: 100px; transform: translateX(-50%) scale(1.1) rotate(0deg); opacity: 1; z-index: 30; }
 }
-
 @keyframes flyParticles {
   0% { transform: translate(-50%, 0) rotate(0deg) scale(0.5); opacity: 0; }
   10% { opacity: 0.8; }
   100% { transform: translate(var(--tx), var(--ty)) rotate(var(--r)) scale(1); opacity: 0; }
 }
-
 @keyframes fallRain {
-  0% {
-    top: -50px;
-    opacity: 0;
-  }
-  10% {
-    opacity: 0.8;
-  }
-  100% {
-    top: 110vh; 
-    opacity: 0;
-    transform: rotate(45deg) scale(0.8);
-  }
+  0% { top: -50px; opacity: 0; }
+  10% { opacity: 0.8; }
+  100% { top: 110vh; opacity: 0; transform: rotate(45deg) scale(0.8); }
 }

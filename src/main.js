@@ -5,18 +5,17 @@ const container = document.getElementById('mailboxContainer');
 const mailboxImage = document.getElementById('mailboxImage');
 const sideText = document.getElementById('sideText');
 
-// Variabile per controllare la pioggia di cuori
 let heartInterval;
 
 // --- GESTIONE CLICK ---
 letter.addEventListener('click', (event) => {
   event.preventDefault(); 
   
-  // 1. STOP AI CUORI
+  // 1. STOP AI CUORI DELLO SFONDO
   clearInterval(heartInterval);
   document.querySelectorAll('.heart-particle').forEach(el => el.remove());
 
-  // 2. START ALLE LETTERE
+  // 2. START ALL'ESPLOSIONE DI LETTERINE
   setInterval(createLetterParticle, 35);
 
   // 3. Modifiche UI
@@ -70,5 +69,4 @@ function createHeartRain() {
   }, (duration + delay) * 1000);
 }
 
-// MODIFICA: Intervallo ridotto a 50ms per molti più cuori!
 heartInterval = setInterval(createHeartRain, 50);
