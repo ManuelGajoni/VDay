@@ -3,12 +3,13 @@ body {
   margin: 0;
   display: flex;
   justify-content: center;
-  align-items: center; /* Questo centra verticalmente */
+  align-items: center;
   min-width: 320px;
   min-height: 100vh;
   background-color: #D2042D;
   font-family: 'Arial', sans-serif;
   overflow: hidden;
+  position: relative; 
 }
 
 #app {
@@ -16,6 +17,8 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 10; 
+  position: relative;
 }
 
 /* --- CONTENITORE PRINCIPALE --- */
@@ -23,21 +26,19 @@ body {
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 180px; /* Distanza laterale */
+  gap: 180px;
   z-index: 100;
-  
-  /* --- MODIFICA 1: SPOSTIAMO TUTTO PIÙ IN BASSO --- */
-  /* Aumenta questo valore se lo vuoi ancora più in basso */
   margin-top: 50px; 
 }
 
 /* --- EFFETTO SCRITTURA --- */
 .side-text {
   color: white;
-  width: 400px;      /* Larghezza fissa: prenota lo spazio */
-  min-width: 400px;  /* Impedisce che si restringa */  
+  width: 400px;
+  min-width: 400px;  
   text-align: left;
   font-family: 'Caveat', cursive;
+  transition: opacity 0.5s ease;
 }
 
 .typewriter {
@@ -54,14 +55,6 @@ body {
   animation-delay: 0.5s;
 }
 
-.fade-in-delayed {
-  font-size: 1.8rem;
-  margin: 0;
-  opacity: 0;
-  animation: fadeInSimple 1s ease forwards;
-  animation-delay: 3s;
-}
-
 /* --- CASSETTA DELLE LETTERE --- */
 .mailbox-container {
   position: relative;
@@ -69,10 +62,10 @@ body {
   height: 400px;
   display: flex;
   justify-content: center;
-  
-  /* --- MODIFICA 2: INGRANDIAMO ANCORA (da 1.5 a 1.8) --- */
   transform: scale(1.8); 
   transform-origin: center center;
+  transition: all 1s cubic-bezier(0.25, 1, 0.5, 1);
+  z-index: 50;
 }
 
 .mailbox-image {
@@ -82,9 +75,10 @@ body {
   position: absolute;
   top: 0;
   z-index: 20;
+  transition: opacity 0.1s ease;
 }
 
-/* --- PARTICELLE DI SFONDO --- */
+/* --- PARTICELLE LETTERE (Esplosione) --- */
 .mini-letter-particle {
   position: absolute;
   top: 135px;
@@ -141,6 +135,7 @@ body {
     #ffffff 40px,
     #ffffff 50px
   );
+  transition: opacity 0.2s ease;
 }
 
 .letter-content {
@@ -197,7 +192,57 @@ body {
   box-shadow: 0 20px 50px rgba(0,0,0,0.5);
 }
 
-/* --- ANIMAZIONI --- */
+/* --- CLASSI ANIMAZIONI FINALI --- */
+.transparent {
+  opacity: 0 !important;
+  pointer-events: none;
+}
+
+/* MODIFICA: Scala ridotta da 3.5 a 2 */
+.zoomed-center {
+  position: fixed !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) scale(2) !important;
+  z-index: 10000;
+  margin: 0 !important;
+}
+
+.zoomed-center .airmail-border {
+  opacity: 0;
+}
+
+/* --- PARTICELLE CUORE (Pioggia) --- */
+.heart-particle {
+  position: absolute;
+  top: -50px; 
+  width: 20px;
+  height: 20px;
+  background-color: rgba(255, 192, 203, 0.6); 
+  transform: rotate(45deg);
+  z-index: 1; 
+  pointer-events: none;
+}
+
+.heart-particle::before,
+.heart-particle::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: rgba(255, 192, 203, 0.6);
+}
+.heart-particle::before {
+  top: -10px;
+  left: 0;
+}
+.heart-particle::after {
+  top: 0;
+  left: -10px;
+}
+
+/* --- KEYFRAMES --- */
 @keyframes typing {
   from { width: 0 }
   to { width: 100% }
@@ -205,10 +250,6 @@ body {
 @keyframes blink-caret {
   from, to { border-color: transparent }
   50% { border-color: white; }
-}
-
-@keyframes fadeInSimple {
-  to { opacity: 1; }
 }
 
 @keyframes dropAndRise {
@@ -233,13 +274,22 @@ body {
 }
 
 @keyframes flyParticles {
+  0% { transform: translate(-50%, 0) rotate(0deg) scale(0.5); opacity: 0; }
+  10% { opacity: 0.8; }
+  100% { transform: translate(var(--tx), var(--ty)) rotate(var(--r)) scale(1); opacity: 0; }
+}
+
+@keyframes fallRain {
   0% {
-    transform: translate(-50%, 0) rotate(0deg) scale(0.5);
+    top: -50px;
     opacity: 0;
   }
-  10% { opacity: 0.8; }
+  10% {
+    opacity: 0.8;
+  }
   100% {
-    transform: translate(var(--tx), var(--ty)) rotate(var(--r)) scale(1);
+    top: 110vh; 
     opacity: 0;
+    transform: rotate(45deg) scale(0.8);
   }
 }

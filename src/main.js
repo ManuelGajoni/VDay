@@ -2,24 +2,36 @@ import './style.css'
 
 const letter = document.getElementById('myLetter');
 const container = document.getElementById('mailboxContainer');
+const mailboxImage = document.getElementById('mailboxImage');
+const sideText = document.getElementById('sideText');
+
+// Variabile per controllare la pioggia di cuori
+let heartInterval;
 
 // --- GESTIONE CLICK ---
 letter.addEventListener('click', (event) => {
   event.preventDefault(); 
-  // Inserisci qui il link alla pagina 2
-  alert("Messaggio aperto! Andiamo alla pagina 2.");
+  
+  // 1. STOP AI CUORI
+  clearInterval(heartInterval);
+  document.querySelectorAll('.heart-particle').forEach(el => el.remove());
+
+  // 2. START ALLE LETTERE
+  setInterval(createLetterParticle, 35);
+
+  // 3. Modifiche UI
+  sideText.classList.add('transparent');
+  mailboxImage.classList.add('transparent');
+  container.classList.add('zoomed-center');
 });
 
-// --- SISTEMA DI PARTICELLE (LETTERINE DI SFONDO) ---
-function createParticle() 
+
+// --- FUNZIONE: ESPLOSIONE LETTERE ---
+function createLetterParticle() 
 {
   const particle = document.createElement('div');
   particle.classList.add('mini-letter-particle');
   
-  // Assegnamo valori casuali per la direzione (CSS Variables)
-  // --tx: movimento orizzontale (-100px a +100px)
-  // --ty: movimento verticale (-200px a +50px - tendenzialmente verso l'alto)
-  // --r: rotazione
   const tx = (Math.random() - 0.5) * 400; 
   const ty = (Math.random() - 0.5) * 400 - 100; 
   const r = (Math.random() - 0.5) * 360;
@@ -28,21 +40,35 @@ function createParticle()
   particle.style.setProperty('--ty', `${ty}px`);
   particle.style.setProperty('--r', `${r}deg`);
   
-  // Velocità random tra 2s e 4s
   const duration = 2 + Math.random() * 2;
   particle.style.animation = `flyParticles ${duration}s ease-out forwards`;
   
   container.appendChild(particle);
   
-  // Rimuovi l'elemento quando l'animazione è finita per non intasare la memoria
   setTimeout(() => {
     particle.remove();
   }, duration * 1000);
 }
 
-// Inizia a generare particelle dopo 1 secondo
-setTimeout(() => 
-  {
-  // Crea una nuova lettera ogni 200 millisecondi
-  setInterval(createParticle, 35);
-}, 1000);
+
+// --- FUNZIONE: PIOGGIA DI CUORI ---
+function createHeartRain() {
+  const heart = document.createElement('div');
+  heart.classList.add('heart-particle');
+  
+  heart.style.left = Math.random() * 100 + 'vw';
+  
+  const duration = 3 + Math.random() * 4; 
+  const delay = Math.random() * 2; 
+  
+  heart.style.animation = `fallRain ${duration}s linear ${delay}s forwards`;
+  
+  document.body.appendChild(heart);
+  
+  setTimeout(() => {
+    heart.remove();
+  }, (duration + delay) * 1000);
+}
+
+// MODIFICA: Intervallo ridotto a 50ms per molti più cuori!
+heartInterval = setInterval(createHeartRain, 50);
