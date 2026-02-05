@@ -277,3 +277,44 @@ body {
 }
 @keyframes flyParticles { 0% { transform: translate(-50%, 0) rotate(0deg) scale(0.5); opacity: 0; } 10% { opacity: 0.8; } 100% { transform: translate(var(--tx), var(--ty)) rotate(var(--r)) scale(1); opacity: 0; } }
 @keyframes fallRain { 0% { top: -50px; opacity: 0; } 10% { opacity: 0.8; } 100% { top: 110vh; opacity: 0; transform: rotate(45deg) scale(0.8); } }
+
+/* --- BOTTONI YES / NO --- */
+.buttons-container {
+  margin-top: 15px;
+  display: flex;
+  gap: 10px;
+  /* Allineiamo a destra come il testo */
+  justify-content: flex-end; 
+  position: relative; /* Importante per il posizionamento */
+}
+
+.btn {
+  padding: 5px 15px;
+  font-family: 'Caveat', cursive;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.btn-yes {
+  background-color: #D2042D;
+  color: white;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.btn-yes:hover {
+  transform: scale(1.1);
+  background-color: #b00325;
+}
+
+.btn-no {
+  background-color: white;
+  color: #D2042D;
+  border: 1px solid #D2042D;
+  /* Position absolute ci servirà per muoverlo via JS */
+  position: relative; 
+  z-index: 100;
+}
